@@ -1,0 +1,23 @@
+doctype html
+html(ng-app="gameshelf")
+  head
+    //- base is required by $locationProvider.html5mode = true, in angular>=1.3
+    base(href="/")
+
+    title GameShelf.io
+    //- We start off with everything that we can from Bower
+    script(src="/public/js/angular/angular.min.js")
+    script(src="/public/js/angular-ui-router/release/angular-ui-router.min.js")
+    //- Offer project js files
+    //- TODO gulp task to minify project js files
+    script(src="/public/js/index.js")
+    script(src="/public/js/collection/collection-controller.js")
+
+  body
+    ul
+        li
+            a(ui-sref="home") Home
+        li
+            a(ui-sref="collection") Collection
+    div
+        div(ui-view)
