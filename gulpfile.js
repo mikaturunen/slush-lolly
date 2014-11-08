@@ -12,12 +12,15 @@ var jade = require("gulp-jade");
 var path = require("path");
 var tslint = require('gulp-tslint');
 var install = require("gulp-install");
+var uglify = require('gulp-uglify');
+var sequence = require('run-sequence');
 
 // common target locations
 var serverReleaseLocation = "./release/server";
 var clientReleaseLocation = "./release/client";
 var jadeReleaseLocation = path.join(clientReleaseLocation, "html");
 var jsClientReleaseLocation = path.join(clientReleaseLocation, "js");
+var jsClientTempLocation = "./tmp/client/js/";
 var jsServerReleaseLocation = path.join(serverReleaseLocation);
 
 // TYPEDEFINITION RELATED
@@ -44,7 +47,8 @@ var jadeLocation = [
 ];
 
 // TASK NAMES
-var taskTsLint = "tslint";
+var taskTslintClient = "tslint-client";
+var taskTslintServer = "tslint-server";
 var taskJade = "jade";
 var taskTsc = "ts";
 var taskTscServer = "ts-server";
@@ -52,26 +56,31 @@ var taskTscClient = "ts-client";
 var taskBower = "bower";
 var taskNpm = "npm";
 var taskBuild = "build";
+var taskUglifyJs = "uglify-js";
 
-// TODO  // merging all the streams for output. -> return eventStream.merge(...args);
+// List of gulp tasks. Aim is to chop the individual tasks into as small chunks as possible and allow 
+// gulp and associated set of tools take care of speed.
+// NOTE turn into parallel tasks where possible if speed every becomes a factor
 
-gulp.task(taskTsLint, function() {
-    // LINTING TS
+gulp.task(taskTslintServer, function() {
     console.log("Linting Server side TS: " + JSON.stringify(typeDefinitionsServer, null, 2));
-    gulp.src(typeDefinitionsServer).pipe(tslint()).pipe(tslint.report("verbose"));
-
-    console.log("Linting Client side TS: " + JSON.stringify(typeDefinitionsClient, null, 2));
-    gulp.src(typeDefinitionsClient).pipe(tslint()).pipe(tslint.report("verbose"));
+    return gulp.src(typeDefinitionsServer).pipe(tslint()).pipe(tslint.report("verbose"));
 });
+
+gulp.task(taskTslintClient, function() {
+    console.log("Linting Client side TS: " + JSON.stringify(typeDefinitionsClient, null, 2));
+    return gulp.src(typeDefinitionsClient).pipe(tslint()).pipe(tslint.report("verbose"));
+})
 
 gulp.task(taskJade, function() {
     console.log("Compiling jade files from locations: " + JSON.stringify(jadeLocation, null, 2));
-    gulp.src(jadeLocation).pipe(jade()).pipe(gulp.dest(jadeReleaseLocation));
+    return gulp.src(jadeLocation).pipe(jade()).pipe(gulp.dest(jadeReleaseLocation));
 });
 
-gulp.task(taskTsc, function() {
-    gulp.task(taskTscServer);
-    gulp.task(taskTscClient);
+gulp.task(taskUglifyJs, function() {
+    return gulp.src(jsClientTempLocation + "**/*.js")
+        .pipe(uglify())
+        .pipe(gulp.dest(jsClientReleaseLocation));
 });
 
 gulp.task(taskTscServer, function() {
@@ -86,7 +95,7 @@ gulp.task(taskTscServer, function() {
                                 showErrors: true
                             }));
 
-    tsServerResult.js.pipe(gulp.dest(jsServerReleaseLocation));
+    return tsServerResult.js.pipe(gulp.dest(jsServerReleaseLocation));
 });
 
 gulp.task(taskTscClient, function() {
@@ -101,23 +110,32 @@ gulp.task(taskTscClient, function() {
                                 showErrors: true
                             }));
 
-    tsClientResult.js.pipe(gulp.dest(jsClientReleaseLocation));
+    return tsClientResult.js.pipe(gulp.dest(jsClientTempLocation));
 });
 
-
 gulp.task(taskBower, function() {
-    gulp.src(["./bower.json"]).pipe(install());
+    return gulp.src(["./bower.json"]).pipe(install());
 });
 
 gulp.task(taskNpm, function() {
-     gulp.src(["./bower.json"]).pipe(install());
+     return gulp.src(["./package.json"]).pipe(install());
 });
 
 gulp.task(taskBuild, function() {
-    gulp.start(taskJade, taskTsLint, taskTsc);
+    sequence(
+            [ taskJade, taskTslintServer, taskTslintClient ],
+            [ taskTscServer, taskTscClient ],
+            taskUglifyJs
+        );
 });
 
 // defining the tasks gulp runs -- in default we do basically all the tasks in one
 gulp.task("default", function() {
-    gulp.start(taskNpm, taskBower, taskJade, taskTsLint, taskTsc);
+    sequence(
+            taskNpm, 
+            taskBower, 
+            [ taskJade, taskTslintServer, taskTslintClient ],
+            [ taskTscServer, taskTscClient ],
+            taskUglifyJs
+        );
 });

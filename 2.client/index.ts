@@ -33,7 +33,10 @@ module GameShelf {
 // Initialize the main module of our application
 angular
   .module(GameShelf.name, GameShelf.depends)
-  .config(GameShelf.config);
+  .config([
+      "$stateProvider", "$urlRouterProvider", "$locationProvider", 
+      GameShelf.config
+    ]);
 
 // centralized initiation of the modules we are going to declare in other files.
 // rationale: this js files gets included first -> declare all modules and initiate them
