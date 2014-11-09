@@ -23,7 +23,7 @@ module GameShelf {
     // Now set up the states
     $stateProvider
       .state("collection", {
-        url: "/",
+        url: "/collection/:id",
         templateUrl: "public/html/collection/collection.html",
         controller: "CollectionCtrl"
       });
