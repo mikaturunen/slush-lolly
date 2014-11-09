@@ -10,9 +10,10 @@ var ts = require("gulp-typescript");
 var eventStream = require("event-stream");
 var jade = require("gulp-jade");
 var path = require("path");
-var tslint = require('gulp-tslint');
+var tslint = require("gulp-tslint");
 var install = require("gulp-install");
-var uglify = require('gulp-uglify');
+var uglify = require("gulp-uglify");
+var sourcemaps = require("gulp-sourcemaps");
 var sequence = require('run-sequence');
 
 // common target locations
@@ -86,8 +87,10 @@ gulp.task(taskUglifyJs, function() {
 gulp.task(taskTscServer, function() {
     console.log("Listed definitions to add for server compilation: " + JSON.stringify(typeDefinitionsServer, null, 2));
     var tsServerResult = gulp.src(typeDefinitionsServer)
+                            .pipe(sourcemaps.init())
                             .pipe(ts({
-                                declarationFiles: false,
+                                declarationFiles: true,
+                                noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
                                 target: "ES5",
@@ -95,22 +98,30 @@ gulp.task(taskTscServer, function() {
                                 showErrors: true
                             }));
 
-    return tsServerResult.js.pipe(gulp.dest(jsServerReleaseLocation));
+    return eventStream.merge(
+        tsServerResult.dts.pipe(gulp.dest('definitions/server')),
+        tsServerResult.js.pipe(gulp.dest(jsServerReleaseLocation))
+    );
 });
 
 gulp.task(taskTscClient, function() {
     console.log("Listed definitions to add for client compilation: " + JSON.stringify(typeDefinitionsClient, null, 2));                        
     var tsClientResult = gulp.src(typeDefinitionsClient)
+                            .pipe(sourcemaps.init())
                             .pipe(ts({
-                                declarationFiles: false,
+                                declarationFiles: true,
                                 noExternalResolve: false,
+                                noImplicitAny: true,
                                 removeComments: true,
                                 target: "ES5",
                                 module: "commonjs",
                                 showErrors: true
                             }));
 
-    return tsClientResult.js.pipe(gulp.dest(jsClientTempLocation));
+    return eventStream.merge(
+        tsClientResult.dts.pipe(gulp.dest('definitions/client')),
+        tsClientResult.js.pipe(gulp.dest(jsClientTempLocation))
+    );
 });
 
 gulp.task(taskBower, function() {
