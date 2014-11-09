@@ -87,19 +87,18 @@ gulp.task(taskUglifyJs, function() {
 gulp.task(taskTscServer, function() {
     console.log("Listed definitions to add for server compilation: " + JSON.stringify(typeDefinitionsServer, null, 2));
     var tsServerResult = gulp.src(typeDefinitionsServer)
-                            .pipe(sourcemaps.init())
                             .pipe(ts({
                                 declarationFiles: true,
                                 noImplicitAny: true,
                                 noExternalResolve: false,
                                 removeComments: true,
                                 target: "ES5",
-                                module: "amd",
+                                module: "commonjs",
                                 showErrors: true
                             }));
 
     return eventStream.merge(
-        tsServerResult.dts.pipe(gulp.dest('definitions/server')),
+       // tsServerResult.dts.pipe(gulp.dest('definitions/server')),
         tsServerResult.js.pipe(gulp.dest(jsServerReleaseLocation))
     );
 });
@@ -107,14 +106,13 @@ gulp.task(taskTscServer, function() {
 gulp.task(taskTscClient, function() {
     console.log("Listed definitions to add for client compilation: " + JSON.stringify(typeDefinitionsClient, null, 2));                        
     var tsClientResult = gulp.src(typeDefinitionsClient)
-                            .pipe(sourcemaps.init())
                             .pipe(ts({
                                 declarationFiles: true,
                                 noExternalResolve: false,
                                 noImplicitAny: true,
                                 removeComments: true,
                                 target: "ES5",
-                                module: "commonjs",
+                                module: "amd",
                                 showErrors: true
                             }));
 
