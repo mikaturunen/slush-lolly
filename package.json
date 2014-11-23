@@ -1,7 +1,8 @@
 {
   "dependencies": {
     "express": "4.9.8",
-    "mongoose": "^3.8.18"
+    "mongoose": "^3.8.18",
+    "socket.io": "^1.2.1"
   },
   "devDependencies": {
     "gulp": "3.8.8",
@@ -15,7 +16,5 @@
     "run-sequence": "^1.0.1",
     "gulp-sourcemaps": "^1.2.8"
   },
-  "scripts": {
-    
-  }
+  "scripts": {}
 }
