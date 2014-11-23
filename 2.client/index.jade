@@ -8,10 +8,16 @@ html(ng-app="gameshelf")
     //- We start off with everything that we can from Bower
     script(src="/public/js/angular/angular.min.js")
     script(src="/public/js/angular-ui-router/release/angular-ui-router.min.js")
+    script(src="/socket.io/socket.io.js")
+    script(src="/public/js/angular-socket-io/socket.min.js")
 
     //- Offer project js files
+    //- ## index files
     script(src="/public/js/index.js")
+    //- ## collection related
     script(src="/public/js/collection/collection-controller.js")
+    //- ## socket related
+    script(src="/public/js/socket/socket-service.js")
 
   body
     ul
