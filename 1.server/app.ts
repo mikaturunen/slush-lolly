@@ -2,6 +2,7 @@ var express = require("express");
 var app = express();
 var path = require("path");
 
+import socket = require("socket.io");
 import collectionRoutes = require("./collection/collection-routes");
 
 app.use("/public", express.static(path.normalize(path.join(__dirname, "..", "client"))));
@@ -21,4 +22,9 @@ var server = app.listen(3000, "127.0.0.1", () => {
 	var port = server.address().port;
 
 	console.log("GameShelves running at http://%s:%s", host, port);
+});
+
+var io: any = socket(server);
+io.on("connection", (socket: any) => {
+  console.log("HERE WE ARE");
 });
