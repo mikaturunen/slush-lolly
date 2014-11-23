@@ -55,34 +55,34 @@ interface Game extends Model {
   /** 
    * Release Year.
    */ 
-  year: number;
+  date?: number;
 
   /** 
    * Description for the game. 
    */
-  description: string;
+  description?: string;
 
   /** 
    * Game can have multiple genres.
    */
-  genres: Genre[];
+  genres?: Genre[];
 
   /** 
    * Single Game can exist on multiple platforms
    */
-  platform: Platform[];
+  platforms: Platform[];
 
   /**
    * Review of the game.
    */
-  review: Review;
+  review?: Review;
 }
 
 /** 
  * Interface for the Collection documents. 
  */
 interface Collection extends Model {
-
+  games: Game[];
 }
 
 /**
@@ -90,6 +90,7 @@ interface Collection extends Model {
  */
 interface User extends Model {
   collections: Collection[];
-
+  // information: string;
+  
 }
 
