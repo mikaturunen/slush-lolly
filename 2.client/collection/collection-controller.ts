@@ -3,7 +3,7 @@ module Collection {
   // the actual controller function that takes in what dependencies were injected.
   // parameter list for the function always needs to match the injected object list in the below angular module setup
   // pahse
-  var controller = ($scope: CollectionScope) => {
+  var controller = ($scope: CollectionScope, socket: any) => {
     console.log("Started Collection controller!");
     defineScopeFunctions($scope);
   };
@@ -38,7 +38,7 @@ angular
   .controller(Collection.meta.controllerName, 
     [
       // list of objects to inject into the controller callback 
-      "$scope", 
+      "$scope", "socket", 
       // callback itself
       Collection.meta.controllerFunction 
     ]);

@@ -11,13 +11,16 @@ module GameShelf {
   /**
    * Dependencies for the main module.
    */
-  export var depends: string[] = [ "ui.router", "gameshelf.collection" ];
+  export var depends: string[] = [ "ui.router", "btford.socket-io", "gameshelf.collection" ];
 
   /**
    * Configuration function for main module. 
    */ 
   export function config($stateProvider: any, $urlRouterProvider: any, $locationProvider: any) {
+    // TODO: write types for the parameters to config
+
     $urlRouterProvider.otherwise("/")
+    // we want the fully functional html5 mode (also removes the # -sign from the URL)
     $locationProvider.html5Mode(true);
 
     // Now set up the states
