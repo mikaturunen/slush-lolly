@@ -12,7 +12,6 @@ collectionRoutes.init(app);
 
 app.get("*", (req: any, res: any) => {
   var indexHtml: string = path.join(__dirname, "..", "client", "html", "index.html");
-  console.log("Route: *: " + indexHtml);
 	res.sendFile(indexHtml);
 });
 
@@ -21,10 +20,10 @@ var server = app.listen(3000, "127.0.0.1", () => {
 	var host = server.address().address;
 	var port = server.address().port;
 
-	console.log("GameShelves running at http://%s:%s", host, port);
+	console.log("Server running at http://%s:%s", host, port);
 });
 
 var io: any = socket(server);
 io.on("connection", (socket: any) => {
-  console.log("HERE WE ARE");
+  console.log("Socket: Hello World!");
 });
