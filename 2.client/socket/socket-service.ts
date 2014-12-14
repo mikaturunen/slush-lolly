@@ -8,7 +8,6 @@ module Socket {
   export var factoryName: string = "socket";
 
   export function factory(socketFactory: any) {
-    console.log("socket factory");
     // TODO create type definition for socketFactory (angular-socket-io) and PR into DefinitelyTyped
     return socketFactory();
   };

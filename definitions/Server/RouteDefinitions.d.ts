@@ -1,3 +1,5 @@
+
+// TODO type definitions for application object from Express
 /**
  * Route definition for all the HTTP traffic related operations. When hooking new routes in place
  * the class needs to implement the following functions to be compatible with the slush-lollys interfaces for 
@@ -6,11 +8,12 @@
 interface HttpRouteDefinition {
   /** 
    * Function for initializing and telling Express about the routes the class is going to provide.
-   * @param application {Express.Application} Application to inject the routes to.
+   * @param application {any} Application to inject the routes to.
    */
-  init: (application: Express.Application) => void;
-};
+  init: (application: any) => void;
+}
 
+// TODO type definitions for socket.io object
 /**
  * Route definition for all the Socket traffic related operations. When hooking new socket routes in place
  * the class needs to implement the following functions to be compatible with the slush-lollys interfaces for 
@@ -22,4 +25,4 @@ interface SocketRouteDefinition {
    * @param socket {any} Socket server.
    */
   init: (socket: any) => void;
-};
+}

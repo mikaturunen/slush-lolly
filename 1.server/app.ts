@@ -1,6 +1,7 @@
 import express = require("express");
 import path = require("path");
-import socket = require("socket.io");
+// TODO type definitions/imports
+var socket = require("socket.io");
 
 // Example of adding dynamic http routes
 import databaseRoutes = require("./database/database-routes");
@@ -10,6 +11,7 @@ var app = express();
 
 app.use("/public", express.static(path.normalize(path.join(__dirname, "..", "client"))));
 
+console.log("databaseRoutes: ", databaseRoutes, JSON.stringify(databaseRoutes));
 // Initialize the additional routes for route modules
 databaseRoutes.init(app);
 
@@ -33,6 +35,5 @@ var io: any = socket(server);
 io.on("connection", (socket: any) => {
   console.log("Connected to server.");
 });
-
 // applying dynamic routes to the socket server
 databaseSockets.init(io);

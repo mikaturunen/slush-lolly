@@ -2,13 +2,13 @@
 import database = require("database");
 
 /** 
- * @class DatabaseRoutes
+ * @module DatabaseRoutes
  * Contains all HTTP routes for Database accessing. Implements HttpRouteDefinitions.
  */
-class DatabaseRoutes extends HttpRouteDefinitions {
-  private routes: any = {
+module DatabaseRoutes {
+  var routes: any = {
     /** 
-     * GET a single Users game collection.
+     * GET hello world example
      * @param request {Express.Request} HTTP request object.
      * @param response {Express.Response} HTTP response object.
      */
@@ -19,14 +19,19 @@ class DatabaseRoutes extends HttpRouteDefinitions {
     }
   };
 
+  // TODO type definitions for application
   /**
    * Initializes all Database specific HTTP routes in place.
-   * @param application {Application.Express} Express application.
+   * @param application {any} Express application.
    */
-  export function init(application: Application.Express) {
+  export function init(application: any) {
     // Example of how to dynamically inject routes into the slush-lollys Express context
     application.get("/hello/:world", routes.getHelloWorld);
-  }
-};
+  };
+}
+
+// This small block will throw error if the above module does not follow the strict HttpRouteDefinition interface :)
+// In TypeScript Version 1.1.0.1 you still cannot force modules to follow/adhere interfaces, so we'll do it this way.
+module interfaceCheck { var isOk: HttpRouteDefinition = DatabaseRoutes; }
 
 export = DatabaseRoutes;

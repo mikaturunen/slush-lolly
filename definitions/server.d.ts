@@ -4,7 +4,7 @@
  */
 
 ///<reference path="DefinitelyTyped/mongoose/mongoose.d.ts" />
-
 ///<reference path="DefinitelyTyped/node/node.d.ts" />
 ///<reference path="DefinitelyTyped/express/express.d.ts" />
 ///<reference path="DefinitelyTyped/socket.io/socket.io.d.ts" />
+///<reference path="Server/RouteDefinitions.d.ts" />

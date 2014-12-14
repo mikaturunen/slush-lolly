@@ -1,11 +1,11 @@
 import database = require("database");
 
 /** 
- * @class DatabaseSocket
+ * @module DatabaseSocket
  * Contains all socket routes for Database accessing. Implements SocketRouteDefinition.
  */
-class DatabaseSocket extends SocketRouteDefinition {
-  private events: any = {
+module DatabaseSocket {
+  var events: any = {
     /**
      * Hello world socket event message
      */
@@ -27,5 +27,9 @@ class DatabaseSocket extends SocketRouteDefinition {
     io.on(events.helloWorld.message, events.helloWorld.fn);
   }
 }
+
+// This small block will throw error if the above module does not follow the strict HttpRouteDefinition interface :)
+// In TypeScript Version 1.1.0.1 you still cannot force modules to follow/adhere interfaces, so we'll do it this way.
+module interfaceCheck { var isOk: SocketRouteDefinition = DatabaseSocket; }
 
 export = DatabaseSocket;
