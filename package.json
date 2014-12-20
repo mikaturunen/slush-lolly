@@ -3,16 +3,20 @@
   "version": "0.0.0",
   "description": "slush-lolly Slush generator. Creates a boilerplate starting point for easy web application development through modern technologies.",
   "author": "Mika Turunen <mika.turunen@ymail.com>",
-  "bugs": {
-
-  },
+  "bugs": {},
   "keywords": [
-    "slush", "lolly", "generator", "typescript", "boilerplate", "modern"
+    "slush",
+    "lolly",
+    "generator",
+    "typescript",
+    "boilerplate",
+    "modern"
   ],
   "dependencies": {
     "express": "4.9.8",
     "mongoose": "^3.8.18",
-    "socket.io": "^1.2.1"
+    "socket.io": "^1.2.1",
+    "bunyan": "^1.2.3"
   },
   "devDependencies": {
     "gulp": "3.8.8",
