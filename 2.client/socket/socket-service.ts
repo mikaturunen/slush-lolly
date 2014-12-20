@@ -4,7 +4,7 @@
 module Socket {
   declare var io: any;
 
-  export var moduleName: string = "gameshelf";
+  export var moduleName: string = "slush-lolly";
   export var factoryName: string = "socket";
 
   export function factory(socketFactory: any) {

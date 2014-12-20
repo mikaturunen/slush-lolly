@@ -8,17 +8,6 @@ var log = bunyan.createLogger({
 });
 
 /** 
- * Simplifies the callback routing for what function to call from Bunyan.
- */
-var callBunyan = (bunyanCallback: any, message: string, meta: { [fieldName: string]: any; }) => {
-  if (meta) {
-    bunyanCallback(message);
-  } else {
-    bunyanCallback(message);
-  }
-};
-
-/** 
  * @module Log
  * Module for handling logging in the node application. Internally uses Bunyan for managing logging behavior.
  */

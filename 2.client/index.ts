@@ -6,12 +6,12 @@ module GameShelf {
   /**
    * Name of the main module.
    */
-  export var name: string = "gameshelf";
+  export var name: string = "slush-lolly";
 
   /**
    * Dependencies for the main module.
    */
-  export var depends: string[] = [ "ui.router", "btford.socket-io", "gameshelf.collection" ];
+  export var depends: string[] = [ "ui.router", "btford.socket-io", "gallery" ];
 
   /**
    * Configuration function for main module. 
@@ -25,10 +25,10 @@ module GameShelf {
 
     // Now set up the states
     $stateProvider
-      .state("collection", {
-        url: "/collection/:id",
-        templateUrl: "public/html/collection/collection.html",
-        controller: "CollectionCtrl"
+      .state("gallery", {
+        url: "/",
+        templateUrl: "public/html/gallery/gallery.html",
+        controller: "GalleryController"
       });
   }
 };
@@ -46,4 +46,4 @@ angular
 //            then in other js files we just call the modules and declare controllers, services and such for the
 //            modules.
 angular
-  .module("gameshelf.collection", [ ]);
+  .module("gallery", [ ]);

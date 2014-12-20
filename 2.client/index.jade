@@ -1,5 +1,5 @@
 doctype html
-html(ng-app="gameshelf")
+html(ng-app="slush-lolly")
   head
     base(href="/")
 
@@ -12,15 +12,12 @@ html(ng-app="gameshelf")
     script(src="/public/js/angular-socket-io/socket.min.js")
 
     //- Offer project js files
+    //- TODO minify files + concantenate
     script(src="/public/js/index.js")
-    script(src="/public/js/collection/collection-controller.js")
+    script(src="/public/js/gallery/gallery-controller.js")
     script(src="/public/js/socket/socket-service.js")
+    script(src="/public/js/log/log-service.js")
 
   body
-    ul
-        li
-            a(ui-sref="home") Home
-        li
-            a(ui-sref="collection") Collection
     div
         div(ui-view)
