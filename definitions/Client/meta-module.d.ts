@@ -1,6 +1,6 @@
 
 /**
- * Interface for Angular module injection and maintaining easier typing
+ * Interface for Angular module injection and maintaining easier typing.
  */
 interface MetaModule {
   /**
@@ -12,6 +12,11 @@ interface MetaModule {
    * Optional controller name. If the module uses controller, should be used.
    */
   controllerName?: string;
+
+  /** 
+   * Optional service name. When part of service, this should be used.
+   */
+  serviceName?: string;
 
   /**
    * Dependencies for the module. Used when creating the module.
@@ -27,4 +32,9 @@ interface MetaModule {
    * Optional angular.module.controller callback function.
    */
   controllerFunction?: (...args: any[]) => void;
+
+  /** 
+   * Optional angular.module.service/factory callback function.
+   */
+  serviceFunction?: (...args: any[]) => void;
 }
