@@ -1,7 +1,7 @@
 {
-  "name": "lolly",
+  "name": "slush-lolly",
   "version": "0.0.1",
-  "description": "Slush generator: Lolly. Creates a boilerplate starting point for easy web application development through modern technologies.",
+  "description": "slush-lolly Slush generator. Creates a boilerplate starting point for easy web application development through modern technologies.",
   "author": "Mika Turunen <mika.turunen@ymail.com>",
   "keywords": [
     "slush",
