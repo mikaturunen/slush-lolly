@@ -22,7 +22,7 @@ $ mkdir my-slush-lolly
 Run the generator from within the new folder:
 
 ```bash
-$ cd my-slush-lolly && slush slush-lolly
+$ cd my-slush-lolly && slush lolly
 ```
 
 ## Getting To Know Slush
