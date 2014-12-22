@@ -20,7 +20,8 @@
     "gulp-rename": "^1.2.0",
     "lodash": "^2.4.1",
     "underscore.string": "^2.4.0",
-    "iniparser": "^1.0.5"
+    "iniparser": "^1.0.5",
+    "q": "^1.1.2"
   },
   "scripts": {},
   "private": false,
