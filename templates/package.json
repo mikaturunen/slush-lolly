@@ -1,8 +1,9 @@
 {
   "name": "slush-lolly",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "slush-lolly Slush generator. Creates a boilerplate starting point for easy web application development through modern technologies.",
   "author": "Mika Turunen <mika.turunen@ymail.com>",
+  "bugs": {},
   "keywords": [
     "slush",
     "lolly",
@@ -12,11 +13,22 @@
     "modern"
   ],
   "dependencies": {
+    "express": "4.9.8",
+    "mongoose": "^3.8.18",
+    "socket.io": "^1.2.1",
+    "bunyan": "^1.2.3"
+  },
+  "devDependencies": {
+    "gulp": "3.8.8",
+    "gulp-typescript": "2.1.0",
+    "event-stream": "3.1.7",
+    "bower": "^1.3.12",
+    "gulp-jade": "^0.9.0",
+    "gulp-tslint": "^1.3.1",
     "gulp-install": "^0.2.0",
-    "gulp-template": "^1.1.1",
-    "gulp-conflict": "^0.3.0",
-    "gulp": "^3.8.10",
-    "inquirer": "^0.8.0"
+    "gulp-uglify": "^1.0.1",
+    "run-sequence": "^1.0.1",
+    "gulp-sourcemaps": "^1.2.8"
   },
   "scripts": {},
   "private": false,
