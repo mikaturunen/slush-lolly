@@ -40,19 +40,6 @@ var createDefault = function(applicationName, userName, email) {
 };
 
 /** 
- * User prompts
- */
-var prompts = [
-    { name: "appName", message: "What is the name of your project?", default: defaults.appName }, 
-    { name: "appDescription", message: "What is the description?" }, 
-    { name: "appVersion", message: "What is the version of your project?", default: "0.1.0" }, 
-    { name: "authorName", message: "What is the author name?" }, 
-    { name: "authorEmail", message: "What is the author email?", default: defaults.authorEmail }, 
-    { name: "userName", message: "What is the github username?", default: defaults.userName }, 
-    { type: "confirm", name: "moveon", message: "Continue?" }
-];
-
-/** 
  * Handles the user results from user prompts.
  */
 var handlingPromptResults = function(answers) {
@@ -80,7 +67,7 @@ var handlingPromptResults = function(answers) {
  * Gets the default information about the user.
  */
 var getDefaults = function() {
-    var deferred = q.defer();
+    var deferred = Q.defer();
 
     var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
     var workingDirName = process.cwd().split("/").pop().split("\\").pop();
@@ -88,8 +75,8 @@ var getDefaults = function() {
     var configFile = homeDir + "/.gitconfig";
     var user = { };
 
-    fs.exist(configFile, function(exist) {
-        if(!exist) {
+    fs.exists(configFile, function(exists) {
+        if(!exists) {
             deferred.resolve(createDefault(workingDirName, osUserName));
             return;
         }
@@ -113,6 +100,17 @@ gulp.task("default", function (done) {
     // making sure the defaults are loaded with Q chain
     getDefaults()
         .then(function(defaults) {
+            // user prompts
+            var prompts = [
+                { name: "appName", message: "What is the name of your project?", default: defaults.appName }, 
+                { name: "appDescription", message: "What is the description?" }, 
+                { name: "appVersion", message: "What is the version of your project?", default: "0.1.0" }, 
+                { name: "authorName", message: "What is the author name?" }, 
+                { name: "authorEmail", message: "What is the author email?", default: defaults.authorEmail }, 
+                { name: "userName", message: "What is the github username?", default: defaults.userName }, 
+                { type: "confirm", name: "moveon", message: "Continue?" }
+            ];
+
             inquirer.prompt(prompts, handlingPromptResults);
         })
         .catch(function(error) {
