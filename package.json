@@ -16,7 +16,11 @@
     "gulp-template": "^1.1.1",
     "gulp-conflict": "^0.3.0",
     "gulp": "^3.8.10",
-    "inquirer": "^0.8.0"
+    "inquirer": "^0.8.0",
+    "gulp-rename": "^1.2.0",
+    "lodash": "^2.4.1",
+    "underscore.string": "^2.4.0",
+    "iniparser": "^1.0.5"
   },
   "scripts": {},
   "private": false,

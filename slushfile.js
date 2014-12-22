@@ -1,29 +1,73 @@
+/*
+ * slush-lolly
+ * https://github.com/mikaturunen/slush-lolly
+ *
+ * Copyright (c) 2014, Mika Turunen
+ * Licensed under the MIT license.
+ */
+
+"use strict";
+
 var gulp = require("gulp");
 var install = require("gulp-install");
 var conflict = require("gulp-conflict");
 var template = require("gulp-template");
+var rename = require("gulp-rename");
+var _u = require("underscore.string");
+var _ = require("lodash");
 var inquirer = require("inquirer");
 
-var userPrompts = [
-  { type: "input", name: "name", message: "Application name: ", default: gulp.args.join(' ') }, // Get app name from arguments by default
-  { type: "confirm", name: "moveon", message: "Continue?" }
-];
+function format(string) {
+    var username = string.toLowerCase();
+    return username.replace(/\s/g, "");
+}
 
-var handleAnswers = function(answers) {
-  if (!answers.moveon) {
-    return done();
-  }
+var defaults = (function () {
+    var homeDir = process.env.HOME || process.env.HOMEPATH || process.env.USERPROFILE;
+    var workingDirName = process.cwd().split("/").pop().split("\\").pop();
+    var osUserName = homeDir && homeDir.split("/").pop() || "root";
+    var configFile = homeDir + "/.gitconfig";
+    var user = { };
 
-  gulp.src(__dirname + "/templates/*/**")     // Note use of __dirname to be relative to generator
-    .pipe(template(answers))                  // LoDash template support
-    .pipe(conflict("./"))                     // Confirms overwrites on file conflicts
-    .pipe(gulp.dest("./"))                    // Without __dirname here = relative to cwd
-    .pipe(install())                          // Run `bower install` and/or `npm install` if necessary
-    .on("finish", function () {
-      done();                                 // Finished!
-    });
-};
+    
+    if (require("fs").existsSync(configFile)) {
+        user = require("iniparser").parseSync(configFile).user;
+    }
 
-gulp.task("default", function(done) {
-  inquirer.prompt(userPrompts, handleAnswers);
+    return { appName: workingDirName, userName: format(user.name) || osUserName, authorEmail: user.email || "" };
+})();
+
+gulp.task("default", function (done) {
+    var prompts = [
+        { name: "appName", message: "What is the name of your project?", default: defaults.appName }, 
+        { name: "appDescription", message: "What is the description?" }, 
+        { name: "appVersion", message: "What is the version of your project?", default: "0.1.0" }, 
+        { name: "authorName", message: "What is the author name?" }, 
+        { name: "authorEmail", message: "What is the author email?", default: defaults.authorEmail }, 
+        { name: "userName", message: "What is the github username?", default: defaults.userName }, 
+        { type: "confirm", name: "moveon", message: "Continue?" }
+    ];
+
+    var handlingPromptResults = function(answers) {
+        if (!answers.moveon) {
+            return done();
+        }
+
+        answers.appNameSlug = _u.slugify(answers.appName);
+        gulp.src(__dirname + "/templates/**")
+            .pipe(template(answers))
+            .pipe(rename(function (file) {
+                if (file.basename[0] === "_") {
+                    file.basename = "." + file.basename.slice(1);
+                }
+            }))
+            .pipe(conflict("./"))
+            .pipe(gulp.dest("./"))
+            .pipe(install())
+            .on("end", function () {
+                done();
+            });
+    };
+
+    inquirer.prompt(prompts, handlingPromptResults);
 });
