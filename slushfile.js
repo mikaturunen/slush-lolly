@@ -40,6 +40,20 @@ var createDefault = function(applicationName, userName, email) {
 };
 
 /** 
+ * Handles renaming the files
+ */
+var renamer = function (file) {
+    // handling the bowerrc and gitignore cases first
+    if (file.basename === "_bowerrc") {
+        file.basename = file.basename.replace("_", ".");
+    } else if (file.basename === "_gitignore") {
+        file.basename = file.basename.replace("_", ".");
+    } else if (file.basename[0] === "_") {
+        file.basename = "." + file.basename.slice(1);
+    }
+};
+
+/** 
  * Handles the user results from user prompts.
  */
 var handlingPromptResults = function(answers) {
@@ -50,11 +64,7 @@ var handlingPromptResults = function(answers) {
     answers.appNameSlug = _u.slugify(answers.appName);
     gulp.src(__dirname + "/templates/**")
         .pipe(template(answers))
-        .pipe(rename(function (file) {
-            if (file.basename[0] === "_") {
-                file.basename = "." + file.basename.slice(1);
-            }
-        }))
+        .pipe(rename(renamer))
         .pipe(conflict("./"))
         .pipe(gulp.dest("./"))
         .pipe(install())
