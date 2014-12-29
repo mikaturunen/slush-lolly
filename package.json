@@ -23,7 +23,9 @@
     "iniparser": "^1.0.5",
     "q": "^1.1.2"
   },
-  "scripts": {},
+  "scripts": {
+
+  },
   "private": false,
   "analyze": false,
   "license": "MIT",

@@ -4,19 +4,25 @@
 module Socket {
   declare var io: any;
 
-  export var moduleName: string = "slush-lolly";
-  export var factoryName: string = "socket";
-
   export function factory(socketFactory: any) {
     // TODO create type definition for socketFactory (angular-socket-io) and PR into DefinitelyTyped
     return socketFactory();
   };
+
+  /**
+   * Module details for Angular to consume.
+   */ 
+  export var meta: MetaModule = {
+    moduleName: "slush-lolly",
+    serviceName: "socket",
+    serviceFunction: factory
+  }
 };
 
 // initiating the socket factory 
 angular
-  .module(Socket.moduleName)
-  .factory(Socket.factoryName, [
+  .module(Socket.meta.moduleName)
+  .factory(Socket.meta.serviceName, [
       "socketFactory",
-      Socket.factory
+      Socket.meta.serviceFunction
     ]);
